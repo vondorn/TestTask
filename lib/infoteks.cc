@@ -44,6 +44,5 @@ int calculateSum(const std::string& str) {
 
 bool checkLength(const std::string& str) {
   size_t length = str.size();
-  return (length > 2 && !(length % 32)) ? 1 : 0;
+  return length > 2 && !(length % 32);
 }
-
