@@ -3,11 +3,14 @@ CXX = g++
 CXXFLAGS = -Wall -Werror -Wextra
 LIB = lib$(PROJ).so
 PR1 = program1
+PR2 = program2
 
 all: mama
 
 mama: $(LIB)
-	$(CXX) $(CXXFLAGS) main.cc $(PR1)/$(PR1).cc -L. -l$(PROJ) -o check
+	$(CXX) $(CXXFLAGS) $(PR1)/$(PR1).cc -L. -l$(PROJ) -o cl
+	$(CXX) $(CXXFLAGS) $(PR2)/$(PR2).cc -L. -l$(PROJ) -o se
+	
 
 $(LIB): $(PROJ).o
 	$(CXX) $(CXXFLAGS) -shared -o $@ $<
@@ -17,4 +20,4 @@ $(PROJ).o:
 	$(CXX) $(CXXFLAGS) -c -fPIC lib/$(PROJ).cc -o $@
 
 clean:
-	rm *.o *.so check
+	rm -f *.o *.so check cl se

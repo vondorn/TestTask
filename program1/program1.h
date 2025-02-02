@@ -6,6 +6,7 @@
 #include <thread>
 
 #include "../lib/infoteks.h"
+#include "../client/client.h"
 
 class Program1 {
  public:
@@ -18,4 +19,5 @@ class Program1 {
   std::queue<std::string> buffer;
   std::mutex mtx;
   std::condition_variable cv;
+  Client client;
 };

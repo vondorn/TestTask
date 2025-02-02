@@ -49,7 +49,7 @@ void Program1::consumerThread() {
 
     int sum = calculateSum(str);
     std::cout << str << "\t\t\t" << sum << std::endl;
-    // send to Program2
+    client.sendMessage(str);
   }
 }
 
@@ -61,4 +61,10 @@ bool Program1::digitSpaceStroke(std::string& str) {
     }
   }
   return res;
+}
+
+int main() {
+  
+  Program1 p;
+  return 0;
 }

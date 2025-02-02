@@ -29,7 +29,7 @@ void sortAndReplace(std::string& str) {
     str.pop_back();
   }
 }
-
+  
 int calculateSum(const std::string& str) {
   std::istringstream iss(str);
   std::string token;
