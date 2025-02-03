@@ -5,17 +5,18 @@
 #include <string>
 #include <thread>
 
-#include "../lib/infoteks.h"
 #include "../client/client.h"
+#include "../lib/infoteks.h"
 
 class Program1 {
  public:
-  Program1();
+  Program1() {}
+  void work();
+
+ private:
   void producerThread();
   void consumerThread();
   bool digitSpaceStroke(std::string& str);
-
- private:
   std::queue<std::string> buffer;
   std::mutex mtx;
   std::condition_variable cv;

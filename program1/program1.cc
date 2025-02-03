@@ -5,7 +5,7 @@
 
 #include "../lib/infoteks.h"
 
-Program1::Program1() {
+void Program1::work() {
   std::thread producer([this]() { producerThread(); });
   std::thread consumer([this]() { consumerThread(); });
 
@@ -64,7 +64,12 @@ bool Program1::digitSpaceStroke(std::string& str) {
 }
 
 int main() {
-  
   Program1 p;
+  try {
+    p.work();
+  } catch (const std::exception& e) {
+    std::cerr << "Exception: " << e.what() << std::endl;
+  }
   return 0;
 }
+

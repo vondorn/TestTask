@@ -14,7 +14,7 @@ class Server {
   }
 
   void readMessage(std::string& message) {
-    char data[1024];
+    char data[1024] = "";
     socket->read_some(boost::asio::buffer(data));
     std::cout << "READING..." << data << std::endl;
     message = data;
