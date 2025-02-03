@@ -18,4 +18,4 @@ $(PROJ).o:
 	$(CXX) $(CXXFLAGS) -c -fPIC $(PROJ).cc -o $@
 
 clean:
-	rm *.o *.so check
+	rm *.o check

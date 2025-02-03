@@ -12,6 +12,7 @@ class Program1 {
  public:
   Program1() {}
   void work();
+  void trySend(const std::string& str);
 
  private:
   void producerThread();

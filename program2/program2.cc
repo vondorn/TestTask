@@ -2,10 +2,15 @@
 
 void Program2::work() {
   while (1) {
-    std::string str;
-    server.readMessage(str);
-    std::cout << "CHECKING... ";
-    std::cout << (checkLength(str) ? "true" : "false") << std::endl;
+    try {
+      std::string str;
+      server.readMessage(str);
+      std::cout << "CHECKING... ";
+      std::cout << (checkLength(str) ? "true" : "false") << std::endl;
+    } catch (const std::exception& e) {
+      std::cout << "TRY RECONNECT" << std::endl;
+      server.connect();
+    }
   }
 }
 

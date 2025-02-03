@@ -6,6 +6,7 @@
 #include "../lib/infoteks.h"
 
 void Program1::work() {
+  std::thread connecter([this]() { client.connect(); });
   std::thread producer([this]() { producerThread(); });
   std::thread consumer([this]() { consumerThread(); });
 
@@ -15,9 +16,9 @@ void Program1::work() {
 
 void Program1::producerThread() {
   while (1) {
-    std::cout << "ENTER A STRING: ";
     std::string str;
     getline(std::cin, str);
+    std::cout << "ENTERED STRING: " << str << std::endl;
 
     if (str.size() > 64 || !digitSpaceStroke(str)) {
       std::cout << "INVALID INPUT\n";
@@ -25,7 +26,6 @@ void Program1::producerThread() {
     }
 
     sortAndReplace(str);
-
     {
       std::unique_lock<std::mutex> lock(mtx);
       buffer.push(str);
@@ -36,20 +36,33 @@ void Program1::producerThread() {
 }
 
 void Program1::consumerThread() {
+  // std::this_thread::sleep_for(std::chrono::seconds(2));
+
   while (true) {
     std::string str;
-
+    // size_t previousSize = buffer.size();
     {
       std::unique_lock<std::mutex> lock(mtx);
       cv.wait(lock, [this] { return !buffer.empty(); });
 
       str = buffer.front();
       buffer.pop();
+      std::cout << "EDITED STRING: " << str << std::endl;
     }
 
-    int sum = calculateSum(str);
-    std::cout << str << "\t\t\t" << sum << std::endl;
+    // int sum = calculateSum(str);
+    trySend(str);
+  }
+}
+
+void Program1::trySend(const std::string& str) {
+  // if ()
+  try {
     client.sendMessage(str);
+  } catch (const std::exception& e) {
+    std::cout << "                         RECONNECT... " << std::endl;
+    client.connect();
+    trySend(str);
   }
 }
 
@@ -72,4 +85,3 @@ int main() {
   }
   return 0;
 }
-
