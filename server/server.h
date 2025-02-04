@@ -14,9 +14,10 @@ class Server {
       tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 12345));
       socket = new tcp::socket(io_context);
       acceptor.accept(*socket);
-      std::cout << "SEVER ON\n";
+      std::cout << "SERVER ON\n";
     } catch (const std::exception& e) {
       std::this_thread::sleep_for(std::chrono::seconds(1));
+      std::cout << "CONNECT...\n";
       connect();
     }
   }

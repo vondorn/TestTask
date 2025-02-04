@@ -22,4 +22,5 @@ class Program1 {
   std::mutex mtx;
   std::condition_variable cv;
   Client client;
+  std::string lastMessage;
 };

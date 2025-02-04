@@ -36,11 +36,8 @@ void Program1::producerThread() {
 }
 
 void Program1::consumerThread() {
-  // std::this_thread::sleep_for(std::chrono::seconds(2));
-
   while (true) {
     std::string str;
-    // size_t previousSize = buffer.size();
     {
       std::unique_lock<std::mutex> lock(mtx);
       cv.wait(lock, [this] { return !buffer.empty(); });
@@ -50,18 +47,19 @@ void Program1::consumerThread() {
       std::cout << "EDITED STRING: " << str << std::endl;
     }
 
-    // int sum = calculateSum(str);
+    std::cout << "SUM: " << calculateSum(str) << std::endl;
     trySend(str);
+    lastMessage = str;
   }
 }
 
 void Program1::trySend(const std::string& str) {
-  // if ()
   try {
     client.sendMessage(str);
   } catch (const std::exception& e) {
     std::cout << "                         RECONNECT... " << std::endl;
-    client.connect();
+    while (!client.connect());
+    trySend(lastMessage);
     trySend(str);
   }
 }

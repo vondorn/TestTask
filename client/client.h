@@ -9,7 +9,8 @@ class Client {
  public:
   Client() {}
 
-  void connect() {
+  bool connect() {
+    bool res = 0;
     try {
       tcp::resolver resolver(io_context);
       tcp::resolver::results_type endpoints =
@@ -18,16 +19,16 @@ class Client {
       socket = new tcp::socket(io_context);
       boost::asio::connect(*socket, endpoints);
       std::cout << "                       CONNECTED\n";
+      res = 1;
     } catch (const std::exception& e) {
       std::this_thread::sleep_for(std::chrono::seconds(2));
-      std::cout << "                       TRY RECONNECT" << std::endl;
-      connect();
     }
+    return res;
   }
 
   void sendMessage(const std::string& message) {
     boost::asio::write(*socket, boost::asio::buffer(message));
-
+    std::this_thread::sleep_for(std::chrono::milliseconds(1));
     std::cout << "SENDED: " << message << std::endl;
   }
 
